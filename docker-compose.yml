@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  redis:
+    image: daocloud.io/redis:latest
+    restart: always
+    ports:
+        - "6379:6379"
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: flask_demo
+    ports:
+        - "5000:5000"
+    command:  pipenv run flask run -h 0.0.0.0
+    volumes:
+        - ".:/app"
+    links:
+      - redis
